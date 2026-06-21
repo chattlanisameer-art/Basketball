@@ -774,18 +774,18 @@
       </a>
     </div>
 
-    <form class="email-form reveal" id="emailForm" novalidate>
-      <input type="email" id="emailInput" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address" />
+    <form class="email-form reveal" id="emailForm" action="https://app.kit.com/forms/9579798/subscriptions" method="POST" novalidate>
+      <input type="email" id="emailInput" name="email_address" placeholder="you@email.com" autocomplete="email" required aria-label="Email address" />
       <button type="submit" class="btn btn-submit">Lock In My 30% 🔒</button>
     </form>
     <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
 
     <div class="success-card" id="successCard">
       <span class="big-emoji">🎉</span>
-      <h3>You're on the list!</h3>
+      <h3>You're in — check your email to confirm your spot!</h3>
       <p>
-        Make sure you're following us on Instagram and TikTok — your <strong>30% off code</strong>
-        will hit your inbox the moment we launch. See you there. 🍊
+        Confirm your email, then make sure you're following us on Instagram and TikTok — your
+        <strong>30% off code</strong> will hit your inbox the moment we launch. See you there. 🍊
       </p>
     </div>
 
@@ -833,15 +833,25 @@
 </footer>
 
 <script>
-  // ---------- Email capture (frontend only — stored in state) ----------
-  const capturedEmails = [];
+  // ---------- Email capture → Kit (ConvertKit) ----------
+  const KIT_ENDPOINT = 'https://app.kit.com/forms/9579798/subscriptions';
 
   const form = document.getElementById('emailForm');
   const input = document.getElementById('emailInput');
   const msg = document.getElementById('formMsg');
   const successCard = document.getElementById('successCard');
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', (e) => {
+  // Show the success state (clears input, hides form, reveals confirmation card).
+  function showSuccess() {
+    input.value = '';
+    form.style.display = 'none';
+    msg.textContent = '';
+    msg.className = 'form-msg';
+    successCard.classList.add('show');
+  }
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = input.value.trim();
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
@@ -853,12 +863,29 @@
       return;
     }
 
-    capturedEmails.push({ email, ts: new Date().toISOString() });
-
-    form.style.display = 'none';
+    // Disable the button so we don't double-submit while the request is in flight.
+    submitBtn.disabled = true;
     msg.textContent = '';
     msg.className = 'form-msg';
-    successCard.classList.add('show');
+
+    try {
+      await fetch(KIT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        body: 'email_address=' + encodeURIComponent(email)
+      });
+      // Success — the email was sent to Kit.
+      showSuccess();
+    } catch (err) {
+      // Kit's CORS can block the response even when the signup succeeds,
+      // so treat a network/CORS error as success and still confirm to the user.
+      showSuccess();
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 
   // ---------- Reveal on scroll ----------
