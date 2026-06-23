@@ -117,7 +117,7 @@
   <div class="wrap">
     <h1>smart skincare,<br>in your <span class="c-coral squig">inbox</span></h1>
     <p class="hero-sub">A free weekly email that teaches women 40+ what actually works in skincare, plus what's new and worth knowing. Calm, honest, never hype.</p>
-    <form class="wl-form" action="https://app.kit.com/forms/9579798/subscriptions" method="POST">
+    <form class="wl-form" action="https://app.convertkit.com/forms/9579798/subscriptions" method="POST">
       <input type="email" name="email_address" placeholder="you@email.com" required aria-label="Email address">
       <button type="submit">Get the free letter →</button>
     </form>
@@ -188,7 +188,7 @@
     <span class="eyebrow">free weekly letter</span>
     <h2 class="stitle">join the free skincare letter</h2>
     <p class="sub">A free weekly email made for women 40+: what works, what's new, and what's worth your time. One email a week, and you can leave anytime.</p>
-    <form class="wl-form" id="wlForm" action="https://app.kit.com/forms/9579798/subscriptions" method="POST">
+    <form class="wl-form" id="wlForm" action="https://app.convertkit.com/forms/9579798/subscriptions" method="POST">
       <input type="email" id="wlEmail" name="email_address" placeholder="you@email.com" required aria-label="Email address">
       <button type="submit">Subscribe free →</button>
     </form>
@@ -213,7 +213,9 @@
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   // Newsletter signup → Kit (ConvertKit). Every .wl-form on the page posts the
   // email to the same Kit form so the visitor is added to the weekly letter.
-  const KIT_ENDPOINT='https://app.kit.com/forms/9579798/subscriptions';
+  // NOTE: the working browser endpoint is app.convertkit.com (Kit's own embedded
+  // forms post here too); app.kit.com does not process this submission.
+  const KIT_ENDPOINT='https://app.convertkit.com/forms/9579798/subscriptions';
   const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   document.querySelectorAll('.wl-form').forEach(form=>{
@@ -225,20 +227,33 @@
       const email=(input.value||'').trim();
       if(!EMAIL_RE.test(email)){input.focus();return;}
       btn.disabled=true;
+      let ok=false, opaque=false;
       try{
-        await fetch(KIT_ENDPOINT,{
+        const res=await fetch(KIT_ENDPOINT,{
           method:'POST',
           headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},
           body:'email_address='+encodeURIComponent(email)
         });
+        ok=res.ok;
+        try{
+          const data=await res.json();
+          console.log('Kit signup response:',data);
+          if(data&&data.status) ok=(data.status==='success'||data.status==='quarantined');
+        }catch(_){ /* response not JSON-readable */ }
       }catch(err){
-        // Kit's CORS can block the response even when the signup succeeds,
-        // so we treat a network/CORS error as success and still confirm.
+        // A thrown error here is usually CORS hiding an otherwise-successful
+        // request, so don't hard-fail — confirm but log it for debugging.
+        opaque=true;
+        console.warn('Kit signup request could not be read (likely CORS):',err);
       }finally{
         btn.disabled=false;
       }
-      form.reset();
-      if(success)success.textContent="You're in. Check your email to confirm your free subscription.";
+      if(ok||opaque){
+        form.reset();
+        if(success){success.style.color='';success.textContent="You're in. Check your email to confirm your free subscription.";}
+      }else{
+        if(success){success.style.color='var(--coral)';success.textContent="Hmm, that didn't go through. Please try again.";}
+      }
     });
   });
 </script>
