@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClarvSkin · the free weekly skincare letter for women 40+</title>
+<meta name="description" content="A free weekly email that teaches women 40+ about skincare: what actually works, and what's new and trending. Calm, honest, never hype. Subscribe in one step.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800;12..96,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF9F0;--ink:#1A1410;--coral:#FF5A3C;--coral-deep:#E63E20;
+    --lime:#C4F042;--grape:#7B5BE6;--berry:#FF3D7F;--sun:#FFC93C;--sky:#4ECDC4;
+    --muted:#7a6c5e;--r:24px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 28px;transition:all .4s}
+  nav.scrolled{padding:14px 28px;background:rgba(255,249,240,.85);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(26,20,16,.08)}
+  .brand{font-family:'Bricolage Grotesque';font-weight:900;font-size:1.55rem;letter-spacing:-.02em}
+  .brand b{color:var(--coral)}
+  .nav-cta{font-size:.82rem;font-weight:700;padding:12px 24px;border-radius:100px;background:var(--ink);color:var(--cream);text-decoration:none;transition:transform .3s,background .3s}
+  .nav-cta:hover{transform:translateY(-2px);background:var(--coral)}
+
+  /* hero */
+  header{position:relative;padding:170px 0 90px;text-align:center}
+  h1{font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(3rem,9vw,7rem);line-height:.95;letter-spacing:-.035em;margin-bottom:24px}
+  h1 .c-coral{color:var(--coral)}
+  .squig{position:relative;display:inline-block}
+  .squig::after{content:"";position:absolute;left:-2%;right:-2%;bottom:.06em;height:.14em;background:var(--sun);border-radius:100px;z-index:-1;transform:rotate(-1deg)}
+  .hero-sub{font-size:clamp(1.1rem,2vw,1.35rem);color:var(--muted);max-width:38ch;margin:0 auto 40px;font-weight:500}
+  .hero-cta-row{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .btn-big{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.1rem;padding:20px 42px;border-radius:100px;border:none;cursor:pointer;background:var(--coral);color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:10px;box-shadow:5px 5px 0 var(--ink);transition:transform .25s,box-shadow .25s}
+  .btn-big:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+  .btn-big:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+
+  /* hero visual */
+  .hero-stage{margin:64px auto 0;display:flex;justify-content:center;position:relative}
+  .glow-ring{position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(255,201,60,.35),transparent 65%);top:-20px;z-index:0;filter:blur(10px)}
+  .hero-photo{position:relative;z-index:1;width:min(380px,82vw);border-radius:28px;border:4px solid var(--ink);box-shadow:12px 14px 0 var(--coral);transform:rotate(-2deg);transition:transform .5s}
+  .hero-photo:hover{transform:rotate(0) translateY(-6px)}
+
+  /* sections */
+  section{position:relative;padding:110px 0}
+  .eyebrow{display:inline-block;font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:100px;margin-bottom:20px}
+  .stitle{font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(2.3rem,5.5vw,4rem);line-height:1;letter-spacing:-.03em;margin-bottom:20px}
+  .center{text-align:center}
+
+  /* benefits bento */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;grid-auto-rows:210px}
+  .bcard{border:3px solid var(--ink);border-radius:var(--r);padding:32px;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .3s;text-align:left}
+  .bcard:hover{transform:translateY(-6px)}
+  .bcard .bnum{font-family:'Bricolage Grotesque';font-weight:900;font-size:1.1rem;opacity:.55;margin-bottom:auto}
+  .bcard h3{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.55rem;line-height:1.02;margin-bottom:8px}
+  .bcard p{font-size:.95rem;font-weight:500}
+  .b1{grid-column:span 4;background:var(--sun)}
+  .b2{grid-column:span 2;background:var(--sky);color:#fff}
+  .b3{grid-column:span 2;background:var(--berry);color:#fff}
+  .b4{grid-column:span 4;background:var(--lime)}
+  .b1 p,.b4 p{color:#5a4a3a}
+
+
+  /* waitlist */
+  .waitlist{background:var(--berry);color:#fff;border-radius:48px;margin:0 16px;text-align:center;padding:110px 0}
+  .waitlist .eyebrow{background:rgba(255,255,255,.2);color:#fff}
+  .waitlist p.sub{font-size:1.1rem;color:rgba(255,255,255,.85);max-width:46ch;margin:0 auto;font-weight:500}
+  .wl-form{display:flex;gap:12px;max-width:500px;margin:40px auto 0;flex-wrap:wrap;justify-content:center}
+  .wl-form .formkit-alert{flex-basis:100%;list-style:none;margin:0;padding:0;text-align:center;font-weight:700;color:inherit}
+  .wl-form .formkit-alert:empty{display:none}
+  .wl-form .formkit-alert-success{font-family:'Bricolage Grotesque';font-size:1.15rem}
+  .formkit-powered-by-convertkit-container,.formkit-powered-by-convertkit,[data-element="powered-by"]{display:none!important}
+  .wl-form input{flex:1;min-width:240px;padding:18px 24px;border-radius:100px;border:3px solid var(--ink);background:#fff;color:var(--ink);font-family:inherit;font-size:1rem;font-weight:500}
+  .wl-form input:focus{outline:3px solid var(--lime);outline-offset:2px}
+  .wl-form button{font-family:'Bricolage Grotesque';font-weight:800;padding:18px 34px;border-radius:100px;border:3px solid var(--ink);cursor:pointer;background:var(--lime);color:var(--ink);font-size:1rem;transition:transform .25s;box-shadow:4px 4px 0 var(--ink)}
+  .wl-form button:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+  .wl-success{margin-top:24px;font-family:'Bricolage Grotesque';font-weight:800;font-size:1.3rem;color:var(--lime);min-height:1.5em}
+
+  /* footer */
+  footer{padding:70px 0 44px;text-align:center}
+  .foot-brand{font-family:'Bricolage Grotesque';font-weight:900;font-size:2.2rem;margin-bottom:16px}
+  .foot-brand b{color:var(--coral)}
+  .foot-links{display:flex;gap:26px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+  .foot-links a{color:var(--ink);text-decoration:none;font-weight:600;transition:color .3s}
+  .foot-links a:hover{color:var(--coral)}
+  .foot-fine{font-size:.8rem;color:var(--muted);max-width:54ch;margin:0 auto;font-weight:500}
+
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,.84,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* mix gallery */
+  .mix-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .mix-shot{position:relative;border-radius:var(--r);overflow:hidden;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);transition:transform .3s}
+  .mix-shot:hover{transform:translateY(-6px)}
+  .mix-shot img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:3/4}
+  .mix-shot figcaption{position:absolute;left:14px;bottom:14px;font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;color:#fff;background:rgba(26,20,16,.72);padding:8px 16px;border-radius:100px;backdrop-filter:blur(4px)}
+
+  @media(max-width:900px){
+    .bento{grid-template-columns:1fr 1fr}
+    .b1,.b2,.b3,.b4{grid-column:span 2}
+    .mix-gallery{grid-template-columns:1fr 1fr}
+    section{padding:80px 0}
+    .waitlist{margin:0 8px;border-radius:32px;padding:80px 0}
+  }
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="brand">ClarvSkin<b>.</b></div>
+  <a href="#join" class="nav-cta">Get the free letter</a>
+</nav>
+
+<header>
+  <div class="wrap">
+    <h1>smart skincare,<br>in your <span class="c-coral squig">inbox</span></h1>
+    <p class="hero-sub">A free weekly email that teaches women 40+ what actually works in skincare, plus what's new and worth knowing. Calm, honest, never hype.</p>
+    <form class="wl-form seva-form formkit-form" action="https://app.kit.com/forms/9579798/subscriptions" method="post" data-sv-form="9579798" data-uid="e95e1ac3f2" data-format="inline" data-version="5" data-options='{"settings":{"after_subscribe":{"action":"message","success_message":"You&#39;re in! Check your inbox to confirm — and please look in your spam or junk folder, since the first email sometimes lands there.","redirect_url":""},"recaptcha":{"enabled":false}},"version":"5"}'>
+      <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+      <input class="formkit-input" type="email" name="email_address" placeholder="you@email.com" required aria-label="Email address">
+      <button data-element="submit" class="formkit-submit" type="submit"><span>Get the free letter →</span></button>
+    </form>
+  </div>
+</header>
+
+<!-- benefits -->
+<section class="center">
+  <div class="wrap">
+    <span class="eyebrow" style="background:var(--grape);color:#fff">why it's different</span>
+    <h2 class="stitle">made with <span style="color:var(--grape)">restraint</span></h2>
+    <p style="color:var(--muted);max-width:46ch;margin:0 auto 54px;font-weight:500;font-size:1.1rem">Most skincare advice is really just someone selling you something. This is the opposite: clear, useful guidance, free in your inbox.</p>
+    <div class="bento">
+      <div class="bcard b1 reveal"><div class="bnum">01</div><div><h3>What actually works</h3><p>Each week, one clear idea you can use, grounded in real science, with none of the jargon or 40-product routines.</p></div></div>
+      <div class="bcard b2 reveal"><div class="bnum">02</div><div><h3>Made for 40+ skin</h3><p>Written for what your skin needs now.</p></div></div>
+      <div class="bcard b3 reveal"><div class="bnum">03</div><div><h3>New, decoded</h3><p>The trends worth your time, explained plainly.</p></div></div>
+      <div class="bcard b4 reveal"><div class="bnum">04</div><div><h3>Honest, no hype</h3><p>Clear, useful skincare guidance written to help you, free in your inbox every single week.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- what you get -->
+<section id="inside" class="center">
+  <div class="wrap">
+    <span class="eyebrow" style="background:var(--coral);color:#fff">what lands in your inbox</span>
+    <h2 class="stitle">a few honest minutes, <span style="color:var(--coral)">once a week</span></h2>
+    <p style="color:var(--muted);max-width:48ch;margin:0 auto 50px;font-weight:500;font-size:1.1rem">No spam, no fluff. Just a short, useful read written for women 40+. Free, always.</p>
+  </div>
+</section>
+
+
+<!-- subscribe -->
+<!-- waitlist -->
+<section class="waitlist center" id="join">
+  <div class="wrap">
+    <span class="eyebrow">free weekly letter</span>
+    <h2 class="stitle">join the free skincare letter</h2>
+    <p class="sub">A free weekly email made for women 40+: what works, what's new, and what's worth your time. One email a week, and you can leave anytime.</p>
+    <form class="wl-form seva-form formkit-form" action="https://app.kit.com/forms/9579798/subscriptions" method="post" data-sv-form="9579798" data-uid="e95e1ac3f2" data-format="inline" data-version="5" data-options='{"settings":{"after_subscribe":{"action":"message","success_message":"You&#39;re in! Check your inbox to confirm — and please look in your spam or junk folder, since the first email sometimes lands there.","redirect_url":""},"recaptcha":{"enabled":false}},"version":"5"}'>
+      <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+      <input class="formkit-input" type="email" name="email_address" placeholder="you@email.com" required aria-label="Email address">
+      <button data-element="submit" class="formkit-submit" type="submit"><span>Subscribe free →</span></button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">ClarvSkin<b>.</b></div>
+    <div class="foot-links">
+      <a href="#inside">What's inside</a><a href="#join">Subscribe</a><a href="#">Instagram</a>
+    </div>
+    <p class="foot-fine">ClarvSkin's weekly letter is for education only and is not medical advice. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+  </div>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+<!-- Kit handler: submits the custom-styled forms to Kit (the email capture).
+     If it fails to load, the forms still POST natively to the same Kit URL. -->
+<script async src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+
+</body>
+</html>

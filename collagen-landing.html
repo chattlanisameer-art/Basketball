@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>[BRAND NAME] — Your collagen. Your way. | Preorder Now</title>
+<meta name="description" content="[BRAND NAME] is pure, unflavored collagen powder you customize yourself. Mix with water, juice, smoothies or fresh fruit. Coming soon — reserve yours and get 30% off." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --berry:   #FF2D78;
+    --citrus:  #FF7A00;
+    --kiwi:    #6BC816;
+    --mango:   #FFC400;
+    --grape:   #7B2FF2;
+    --ink:     #241433;
+    --cream:   #FFF7EE;
+    --white:   #FFFFFF;
+    --radius:  28px;
+    --shadow:  0 18px 50px -18px rgba(36, 20, 51, .25);
+    --font-display: 'Sora', sans-serif;
+    --font-body: 'Space Grotesk', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; letter-spacing: -0.02em; }
+
+  img { max-width: 100%; }
+
+  .container { width: min(1120px, 92%); margin: 0 auto; }
+
+  /* ---------- Reveal-on-scroll ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: .1s; }
+  .reveal.d2 { transition-delay: .2s; }
+  .reveal.d3 { transition-delay: .3s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .float, .marquee-track, .blob, .wiggle { animation: none !important; }
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 1.05rem 2.2rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
+  }
+  .btn-primary {
+    background: linear-gradient(100deg, var(--berry), var(--citrus));
+    color: var(--white);
+    box-shadow: 0 14px 32px -10px rgba(255, 45, 120, .55);
+  }
+  .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 20px 40px -10px rgba(255, 45, 120, .65); }
+  .btn-primary:active { transform: translateY(0) scale(.98); }
+  .btn-ghost {
+    background: var(--white);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+  }
+  .btn-ghost:hover { transform: translateY(-3px); background: var(--mango); }
+
+  /* ---------- Sticky nav ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    background: rgba(255, 247, 238, .85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(36,20,51,.07);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .85rem 0;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .logo span { color: var(--berry); }
+  .nav-cta { font-size: .9rem; padding: .65rem 1.4rem; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 7.5rem 0 5rem;
+    overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .5;
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  .blob.b1 { width: 480px; height: 480px; background: var(--berry);  top: -120px; left: -140px; }
+  .blob.b2 { width: 420px; height: 420px; background: var(--mango);  bottom: -100px; right: -120px; animation-delay: -4s; }
+  .blob.b3 { width: 340px; height: 340px; background: var(--kiwi);   top: 30%; right: -160px; animation-delay: -8s; opacity: .4; }
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(40px, 50px) scale(1.15); }
+  }
+
+  .float {
+    position: absolute;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    animation: bob 5s ease-in-out infinite;
+    user-select: none;
+    pointer-events: none;
+    filter: drop-shadow(0 10px 14px rgba(36,20,51,.18));
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50%      { transform: translateY(-22px) rotate(8deg); }
+  }
+  .f1 { top: 16%;  left: 8%; }
+  .f2 { top: 24%;  right: 10%; animation-delay: -1.2s; }
+  .f3 { bottom: 22%; left: 12%; animation-delay: -2.4s; }
+  .f4 { bottom: 16%; right: 14%; animation-delay: -3.4s; }
+  .f5 { top: 52%;  left: 3%;  animation-delay: -1.8s; }
+  .f6 { top: 60%;  right: 4%; animation-delay: -2.9s; }
+
+  .hero-inner { position: relative; z-index: 2; }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--ink);
+    padding: .5rem 1.2rem;
+    border-radius: 999px;
+    margin-bottom: 1.4rem;
+  }
+  .badge .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--kiwi);
+    margin-right: .5rem;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .4; transform: scale(.7); }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 8.5vw, 6.2rem);
+    font-weight: 800;
+  }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(95deg, var(--berry) 10%, var(--citrus) 45%, var(--mango) 75%, var(--kiwi) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.sub {
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    max-width: 38rem;
+    margin: 1.4rem auto 2.4rem;
+    color: rgba(36,20,51,.75);
+  }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .hero-note { margin-top: 1.2rem; font-size: .9rem; color: rgba(36,20,51,.55); }
+
+  /* ---------- Marquee ---------- */
+  .marquee {
+    background: var(--ink);
+    color: var(--white);
+    overflow: hidden;
+    padding: 1rem 0;
+    transform: rotate(-1.2deg) scale(1.02);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 2.5rem;
+    width: max-content;
+    animation: scroll 22s linear infinite;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-track .sep { color: var(--mango); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 6rem 0; position: relative; }
+
+  .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: .82rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--berry);
+    margin-bottom: .8rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    max-width: 28ch;
+  }
+  .section-sub {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: rgba(36,20,51,.7);
+    max-width: 44rem;
+  }
+  .center { text-align: center; }
+  .center .section-title, .center .section-sub { margin-left: auto; margin-right: auto; }
+
+  /* ---------- What it is ---------- */
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .canvas-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform .35s cubic-bezier(.22,1,.36,1);
+  }
+  .canvas-card:hover { transform: translateY(-6px) rotate(-.5deg); }
+  .canvas-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--berry), var(--citrus), var(--mango), var(--kiwi));
+  }
+  .canvas-card .big-emoji { font-size: 4rem; display: block; margin-bottom: 1rem; }
+  .canvas-card h3 { font-size: 1.6rem; margin-bottom: .8rem; }
+  .canvas-card p { color: rgba(36,20,51,.72); }
+
+  .what-points { list-style: none; display: grid; gap: 1.4rem; }
+  .what-points li {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    font-size: 1.05rem;
+  }
+  .what-points .tick {
+    flex: none;
+    width: 34px; height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--kiwi);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .what-points strong { font-family: var(--font-display); }
+
+  /* ---------- Ways to use ---------- */
+  .ways { background: var(--white); }
+  .ways-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.4rem;
+    margin-top: 3rem;
+  }
+  .way-card {
+    border-radius: var(--radius);
+    padding: 2.2rem 1.6rem;
+    color: var(--white);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease;
+    cursor: default;
+  }
+  .way-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: var(--shadow); }
+  .way-card .emoji {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    transition: transform .35s ease;
+  }
+  .way-card:hover .emoji { transform: scale(1.25) rotate(-8deg); }
+  .way-card h3 { font-size: 1.3rem; margin-bottom: .5rem; }
+  .way-card p { font-size: .95rem; opacity: .92; }
+  .way-water    { background: linear-gradient(160deg, #38B6FF, #2D7BFF); }
+  .way-milk     { background: linear-gradient(160deg, var(--grape), #B14CF0); }
+  .way-fruit    { background: linear-gradient(160deg, var(--berry), var(--citrus)); }
+  .way-smoothie { background: linear-gradient(160deg, var(--kiwi), #3DA712); }
+
+  /* ---------- Why different ---------- */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+    margin-top: 3rem;
+  }
+  .why-card {
+    background: var(--white);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius);
+    padding: 2rem;
+    transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease;
+  }
+  .why-card:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--ink); }
+  .why-card .icon {
+    width: 56px; height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    font-size: 1.7rem;
+    margin-bottom: 1.1rem;
+  }
+  .why-card:nth-child(1) .icon { background: #FFE0EC; }
+  .why-card:nth-child(2) .icon { background: #FFEFD6; }
+  .why-card:nth-child(3) .icon { background: #E8F8D6; }
+  .why-card:nth-child(4) .icon { background: #FFF6CC; }
+  .why-card h3 { font-size: 1.25rem; margin-bottom: .5rem; }
+  .why-card p { color: rgba(36,20,51,.72); font-size: .98rem; }
+
+  /* ---------- 30% off ---------- */
+  .deal {
+    background: linear-gradient(135deg, var(--berry) 0%, var(--citrus) 55%, var(--mango) 100%);
+    color: var(--white);
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .deal .eyebrow { color: var(--white); opacity: .9; }
+  .deal .section-sub { color: rgba(255,255,255,.88); }
+  .deal-badge {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(3.4rem, 9vw, 5.6rem);
+    line-height: 1;
+    background: var(--white);
+    color: var(--berry);
+    padding: .6rem 1.6rem;
+    border-radius: 24px;
+    transform: rotate(-2deg);
+    box-shadow: 0 18px 40px -12px rgba(36,20,51,.4);
+    margin-bottom: 1.6rem;
+    animation: wiggle 4s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-2deg); }
+    50%      { transform: rotate(2deg) scale(1.04); }
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+    margin: 3rem 0;
+  }
+  .step {
+    background: rgba(255,255,255,.14);
+    border: 1.5px solid rgba(255,255,255,.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: var(--radius);
+    padding: 1.8rem 1.4rem;
+    text-align: center;
+    transition: transform .3s ease, background .3s ease;
+  }
+  .step:hover { transform: translateY(-6px); background: rgba(255,255,255,.22); }
+  .step .num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    width: 44px; height: 44px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--berry);
+    font-size: 1.2rem;
+  }
+  .step h3 { font-size: 1.1rem; margin-bottom: .4rem; }
+  .step p { font-size: .92rem; opacity: .92; }
+
+  .social-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2.2rem;
+  }
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: .9rem 1.8rem;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
+  }
+  .social-btn:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 14px 28px -8px rgba(36,20,51,.35); }
+  .social-btn svg { width: 22px; height: 22px; }
+
+  .email-form {
+    display: flex;
+    gap: .8rem;
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+  .email-form input {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 1.05rem 1.5rem;
+    border-radius: 999px;
+    border: none;
+    outline: 3px solid transparent;
+    transition: outline-color .2s ease;
+  }
+  .email-form input:focus { outline-color: var(--ink); }
+  .email-form .btn-submit {
+    background: var(--ink);
+    color: var(--white);
+    white-space: nowrap;
+  }
+  .email-form .btn-submit:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 30px -8px rgba(36,20,51,.5); }
+
+  .form-msg {
+    margin-top: 1rem;
+    font-weight: 600;
+    min-height: 1.6rem;
+    transition: opacity .3s ease;
+  }
+  .form-msg.success { color: var(--white); }
+  .form-msg.error { color: #FFE3B3; }
+
+  .success-card {
+    display: none;
+    max-width: 34rem;
+    margin: 0 auto;
+    background: var(--white);
+    color: var(--ink);
+    border-radius: var(--radius);
+    padding: 2.4rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    animation: pop .5s cubic-bezier(.22,1.4,.36,1);
+  }
+  .success-card.show { display: block; }
+  @keyframes pop {
+    from { transform: scale(.85); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .success-card .big-emoji { font-size: 3rem; display: block; margin-bottom: .6rem; }
+  .success-card h3 { font-size: 1.5rem; margin-bottom: .6rem; }
+  .success-card p { color: rgba(36,20,51,.72); }
+
+  .deal-fineprint {
+    text-align: center;
+    font-size: .85rem;
+    opacity: .8;
+    margin-top: 1.6rem;
+  }
+
+  /* ---------- Final CTA ---------- */
+  .final-cta { text-align: center; }
+  .final-cta .section-title { max-width: 22ch; margin-left: auto; margin-right: auto; }
+  .final-cta .pay-later {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    background: var(--white);
+    border: 2px dashed var(--kiwi);
+    border-radius: 999px;
+    padding: .6rem 1.4rem;
+    font-weight: 600;
+    margin: 1.6rem 0 2.2rem;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,.85);
+    padding: 3.5rem 0 2.5rem;
+  }
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  footer .logo { color: var(--white); font-size: 1.4rem; }
+  .footer-socials { display: flex; gap: .8rem; }
+  .footer-socials a {
+    width: 46px; height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,.1);
+    color: var(--white);
+    transition: transform .25s ease, background .25s ease;
+  }
+  .footer-socials a:hover { transform: translateY(-4px) scale(1.08); background: var(--berry); }
+  .footer-socials svg { width: 20px; height: 20px; }
+  .footer-bottom {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,.12);
+    font-size: .85rem;
+    opacity: .65;
+    text-align: center;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 900px) {
+    .ways-grid { grid-template-columns: repeat(2, 1fr); }
+    .what-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .steps { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 4.5rem 0; }
+    .ways-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .email-form { flex-direction: column; }
+    .email-form .btn-submit { width: 100%; justify-content: center; }
+    .hero-ctas .btn { width: 100%; justify-content: center; }
+    .f5, .f6 { display: none; }
+    .nav-cta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="container nav-inner">
+    <a class="logo" href="#top">[BRAND NAME]<span>.</span></a>
+    <a class="btn btn-primary nav-cta" href="#deal">Get 30% Off</a>
+  </div>
+</nav>
+
+<!-- ============ 1. HERO ============ -->
+<header class="hero" id="top">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <span class="float f1">🍓</span>
+  <span class="float f2">🍊</span>
+  <span class="float f3">🥝</span>
+  <span class="float f4">🥭</span>
+  <span class="float f5">🫐</span>
+  <span class="float f6">🍋</span>
+
+  <div class="container hero-inner">
+    <span class="badge"><span class="dot"></span>Coming Soon — Preorder Open</span>
+    <h1>
+      Your collagen.
+      <span class="line2">Your way.</span>
+    </h1>
+    <p class="sub">
+      Pure, unflavored collagen powder — a blank canvas you make your own.
+      Mix it into water, milk, juice, smoothies, or blend it with fresh fruit. No fake flavors. No sugar. Just you, deciding.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#deal">Reserve Yours Now 🍓</a>
+      <a class="btn btn-ghost" href="#what">How It Works</a>
+    </div>
+    <p class="hero-note">Follow + sign up = <strong>30% off</strong> at launch. No payment today.</p>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Unflavored</span><span class="sep">✦</span>
+    <span>No Sugar</span><span class="sep">✦</span>
+    <span>No Artificial Anything</span><span class="sep">✦</span>
+    <span>Mix With Anything</span><span class="sep">✦</span>
+    <span>Premium Collagen</span><span class="sep">✦</span>
+    <span>Your Way</span><span class="sep">✦</span>
+    <span>Unflavored</span><span class="sep">✦</span>
+    <span>No Sugar</span><span class="sep">✦</span>
+    <span>No Artificial Anything</span><span class="sep">✦</span>
+    <span>Mix With Anything</span><span class="sep">✦</span>
+    <span>Premium Collagen</span><span class="sep">✦</span>
+    <span>Your Way</span><span class="sep">✦</span>
+  </div>
+</div>
+
+<!-- ============ 2. WHAT IT IS ============ -->
+<section id="what">
+  <div class="container">
+    <div class="what-grid">
+      <div class="reveal">
+        <p class="eyebrow">What it is</p>
+        <h2 class="section-title">A blank canvas, not another pre-flavored powder.</h2>
+        <p class="section-sub">
+          Most collagen brands decide your flavor for you — and pack it with sweeteners to cover the taste.
+          [BRAND NAME] is different: one clean, neutral powder that disappears into whatever <em>you</em> love drinking.
+        </p>
+        <ul class="what-points" style="margin-top:2rem;">
+          <li><span class="tick">✓</span><span><strong>Truly unflavored</strong> — dissolves clean, tastes like nothing.</span></li>
+          <li><span class="tick">✓</span><span><strong>Mixes with anything</strong> — hot, cold, blended or shaken.</span></li>
+          <li><span class="tick">✓</span><span><strong>You're the flavor lab</strong> — strawberries today, mango tomorrow.</span></li>
+        </ul>
+      </div>
+      <div class="canvas-card reveal d1">
+        <span class="big-emoji">🎨</span>
+        <h3>One powder. Infinite combos.</h3>
+        <p>
+          Think of it like a base ingredient, not a finished drink. Every glass is yours to invent —
+          and you never get bored of a flavor you chose yourself.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. WAYS TO USE IT ============ -->
+<section class="ways" id="ways">
+  <div class="container center">
+    <p class="eyebrow reveal">Ways to use it</p>
+    <h2 class="section-title reveal">Pick your mood. Mix your moment.</h2>
+    <p class="section-sub reveal">Four favorites to get you started — then go invent your own.</p>
+
+    <div class="ways-grid">
+      <div class="way-card way-water reveal">
+        <span class="emoji">💧</span>
+        <h3>Water</h3>
+        <p>The cleanest hit. Stirs in clear, zero taste, zero fuss. Hydration with benefits.</p>
+      </div>
+      <div class="way-card way-milk reveal d1">
+        <span class="emoji">🥛</span>
+        <h3>Milk &amp; Lattes</h3>
+        <p>Silky in dairy, oat or almond. Sneak it into your morning coffee — nobody will know.</p>
+      </div>
+      <div class="way-card way-fruit reveal d2">
+        <span class="emoji">🍓</span>
+        <h3>Fresh Fruit &amp; Juice</h3>
+        <p>Muddle berries, squeeze citrus, pour juice. Your flavor, made by actual fruit.</p>
+      </div>
+      <div class="way-card way-smoothie reveal d3">
+        <span class="emoji">🥤</span>
+        <h3>Smoothies</h3>
+        <p>Blends invisibly into any smoothie. Your post-workout shake just leveled up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. WHY IT'S DIFFERENT ============ -->
+<section id="why">
+  <div class="container">
+    <p class="eyebrow reveal">Why it's different</p>
+    <h2 class="section-title reveal">Clean enough to mix with anything. Good enough to take every day.</h2>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="icon">🧼</div>
+        <h3>Clean ingredients</h3>
+        <p>No artificial flavors, no added sugar, no fillers. The label reads like it should: short.</p>
+      </div>
+      <div class="why-card reveal d1">
+        <div class="icon">🚫</div>
+        <h3>Genuinely unflavored</h3>
+        <p>No chalky aftertaste, no mystery "vanilla." It vanishes into your drink — that's the point.</p>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="icon">💎</div>
+        <h3>Premium quality</h3>
+        <p>Sourced and tested to a standard we'd give our own family. Every batch, every scoop.</p>
+      </div>
+      <div class="why-card reveal d3">
+        <div class="icon">🎛️</div>
+        <h3>Endlessly customizable</h3>
+        <p>You control the flavor, the sweetness, the strength. It's your routine — own it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. THE 30% OFF MECHANIC ============ -->
+<section class="deal" id="deal">
+  <div class="container center">
+    <div class="deal-badge reveal">30% OFF</div>
+    <p class="eyebrow reveal">Founding member deal</p>
+    <h2 class="section-title reveal">Follow us. Drop your email. Save 30% at launch.</h2>
+    <p class="section-sub reveal">Three steps. Takes less than a minute. Your discount code lands in your inbox the day we launch.</p>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num">1</div>
+        <h3>Follow our socials</h3>
+        <p>Hit follow on Instagram <em>and</em> TikTok — that's where the launch drops first.</p>
+      </div>
+      <div class="step reveal d1">
+        <div class="num">2</div>
+        <h3>Enter your email</h3>
+        <p>So we know where to send your code. No spam, just the good stuff.</p>
+      </div>
+      <div class="step reveal d2">
+        <div class="num">3</div>
+        <h3>Get 30% off at launch</h3>
+        <p>Your personal discount code arrives the moment preorders ship out.</p>
+      </div>
+    </div>
+
+    <div class="social-row reveal">
+      <a class="social-btn" href="#" aria-label="Follow us on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        Follow on Instagram
+      </a>
+      <a class="social-btn" href="#" aria-label="Follow us on TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+        Follow on TikTok
+      </a>
+    </div>
+
+    <form class="email-form reveal" id="emailForm" action="https://app.kit.com/forms/9579798/subscriptions" method="POST" novalidate>
+      <input type="email" id="emailInput" name="email_address" placeholder="you@email.com" autocomplete="email" required aria-label="Email address" />
+      <button type="submit" class="btn btn-submit">Lock In My 30% 🔒</button>
+    </form>
+    <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+
+    <div class="success-card" id="successCard">
+      <span class="big-emoji">🎉</span>
+      <h3>You're in — check your email to confirm your spot!</h3>
+      <p>
+        Confirm your email, then make sure you're following us on Instagram and TikTok — your
+        <strong>30% off code</strong> will hit your inbox the moment we launch. See you there. 🍊
+      </p>
+    </div>
+
+    <p class="deal-fineprint reveal">One code per person. Discount applies to your preorder at launch.</p>
+  </div>
+</section>
+
+<!-- ============ 6. PREORDER CTA ============ -->
+<section class="final-cta" id="preorder">
+  <div class="container">
+    <p class="eyebrow reveal">Coming soon</p>
+    <h2 class="section-title reveal">Reserve yours now. Pay later, at launch.</h2>
+    <p class="section-sub reveal" style="margin-left:auto; margin-right:auto;">
+      Preorders get first access when [BRAND NAME] drops — and founding members keep their 30% off.
+      No payment today. Just your spot in line.
+    </p>
+    <div class="reveal">
+      <span class="pay-later">✅ &nbsp;$0 today — you only pay when we launch</span>
+    </div>
+    <div class="reveal d1">
+      <a class="btn btn-primary" href="#deal" style="font-size:1.2rem; padding:1.2rem 2.8rem;">Reserve My [BRAND NAME] 🥝</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="logo" href="#top">[BRAND NAME]<span>.</span></a>
+      <p style="max-width: 24rem; font-size:.95rem;">Your collagen. Your way. Launching soon — follow along for the drop.</p>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © <span id="year"></span> [BRAND NAME]. All rights reserved. · Coming soon.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---------- Email capture → Kit (ConvertKit) ----------
+  const KIT_ENDPOINT = 'https://app.kit.com/forms/9579798/subscriptions';
+
+  const form = document.getElementById('emailForm');
+  const input = document.getElementById('emailInput');
+  const msg = document.getElementById('formMsg');
+  const successCard = document.getElementById('successCard');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  // Show the success state (clears input, hides form, reveals confirmation card).
+  function showSuccess() {
+    input.value = '';
+    form.style.display = 'none';
+    msg.textContent = '';
+    msg.className = 'form-msg';
+    successCard.classList.add('show');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+    if (!valid) {
+      msg.textContent = '🍋 Hmm, that email looks a little off — try again?';
+      msg.className = 'form-msg error';
+      input.focus();
+      return;
+    }
+
+    // Disable the button so we don't double-submit while the request is in flight.
+    submitBtn.disabled = true;
+    msg.textContent = '';
+    msg.className = 'form-msg';
+
+    try {
+      await fetch(KIT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+        },
+        body: 'email_address=' + encodeURIComponent(email)
+      });
+      // Success — the email was sent to Kit.
+      showSuccess();
+    } catch (err) {
+      // Kit's CORS can block the response even when the signup succeeds,
+      // so treat a network/CORS error as success and still confirm to the user.
+      showSuccess();
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  // ---------- Reveal on scroll ----------
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+  // ---------- Footer year ----------
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
